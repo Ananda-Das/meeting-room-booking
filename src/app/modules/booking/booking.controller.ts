@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Booking from './booking.model';
+
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import { Room } from '../room/room.model';
@@ -10,7 +11,7 @@ import asyncHandler from '../../utils/asyncHandler ';
 const createBooking = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { date, slots, room, user } = req.body;
-    console.log('reqInfo', req.body);
+
     // Calculate total amount
     const roomData = await Room.findById(room);
     if (!roomData) {
@@ -51,6 +52,14 @@ const getAllBookings = asyncHandler(
       .populate('slots')
       .populate('user');
 
+    if (bookings.length === 0) {
+      sendResponse(res, {
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+        message: 'No Data Found',
+        data: [],
+      });
+    }
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -67,6 +76,15 @@ const getUserBookings = asyncHandler(
     const bookings = await Booking.find({ user: userId, isDeleted: false })
       .populate('room')
       .populate('slots');
+
+    if (bookings.length === 0) {
+      sendResponse(res, {
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+        message: 'No Data Found',
+        data: [],
+      });
+    }
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

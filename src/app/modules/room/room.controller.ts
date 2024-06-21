@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+
 import { TRoom } from './room.interface';
 import { RoomServices } from './room.service';
 import sendResponse from '../../utils/sendResponse';
+import { error } from 'console';
+import AppError from '../../errors/AppError';
 import asyncHandler from '../../utils/asyncHandler ';
 
 const createRoom = asyncHandler(async (req: Request, res: Response) => {
@@ -21,16 +24,7 @@ const getRoom = asyncHandler(async (req: Request, res: Response) => {
   const roomId = req.params.id;
   const room = await RoomServices.getRoomById(roomId);
 
-  if (!room) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: 'Room not found',
-      data: null,
-    });
-  }
-
-  sendResponse<TRoom>(res, {
+  return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Room retrieved successfully',
@@ -40,6 +34,15 @@ const getRoom = asyncHandler(async (req: Request, res: Response) => {
 
 const getAllRooms = asyncHandler(async (req: Request, res: Response) => {
   const rooms = await RoomServices.getAllRooms();
+
+  if (rooms.length === 0) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
 
   sendResponse<TRoom[]>(res, {
     statusCode: httpStatus.OK,
