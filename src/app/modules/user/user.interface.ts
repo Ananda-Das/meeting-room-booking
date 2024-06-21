@@ -17,3 +17,8 @@ export interface UserModel extends Model<TUser> {
     hashedPassword: string,
   ): Promise<boolean>;
 }
+
+// export interface TLoginPayload {
+//   email: string;
+//   password: string;
+// }
