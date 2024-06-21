@@ -4,13 +4,10 @@ import { ZodSchema } from 'zod';
 const validateRequest = (schema: ZodSchema<any>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse(req.body);
       next();
     } catch (error) {
-      let errorMessage = 'An error occurred';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
+      const errorMessage =
+        error instanceof Error ? error.message : 'An error occurred';
       return res.status(400).json({ success: false, message: errorMessage });
     }
   };
