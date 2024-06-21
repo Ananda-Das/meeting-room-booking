@@ -4,22 +4,24 @@ type TResponse<T> = {
   statusCode: number;
   success: boolean;
   message?: string;
-  data: T;
   token?: string;
+  data: T;
 };
 
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
-  const response: any = {
-    success: data.success,
-    message: data.message,
-    data: data.data,
+  const { statusCode, success, message, token, data: responseData } = data;
+  const responseBody: Record<string, unknown> = {
+    success,
+    statusCode,
+    message,
+    data: responseData,
   };
 
-  if (data.token) {
-    response.token = data.token;
+  if (token) {
+    responseBody.token = token;
   }
 
-  res.status(data?.statusCode).json(response);
+  res.status(statusCode).json(responseBody);
 };
 
 export default sendResponse;

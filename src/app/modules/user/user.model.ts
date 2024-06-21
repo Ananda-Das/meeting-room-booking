@@ -40,7 +40,8 @@ const userSchema = new Schema<TUser, UserModel>(
 );
 
 userSchema.pre('save', async function (next) {
-  const user = this;
+  const user = this; // doc
+  // hashing password and save into DB
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_rounds),
