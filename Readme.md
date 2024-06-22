@@ -1,7 +1,7 @@
 ## Installation
 
 1. **Clone the repository:**
-   git clone https://github.com/Ananda-Das/level-2-Assignment-2
+   git clone https://github.com/Ananda-Das/meeting-room-booking
 
 2. **Install dependencies:**
    cd product-management-api <br>
@@ -9,32 +9,47 @@
 
 3. **Set up environment variables:**
    Create a .env file in the root directory and define the following variables:
-   PORT=5000 <br>
-   MONGODB_URI=`<Your MongoDB connection URI>`
+   PORT=
+   DATABASE_URL=
+   BCRYPT_SALT_ROUNDS=
+   JWT_ACCESS_SECRET=
+   JWT_ACCESS_EXPIRES_IN=
 
 ## Usage
 
-### Product Endpoints
+### User Authintication
 
-- **Create a New Product:** POST /api/products
+- **Create a user / user signup:** POST /api/auth/signup
 
-- **Retrieve a List of All Products:** GET /api/products
+- **Login a user:** POST /api/auth/login
 
-- **Retrieve a Specific Product by ID:** GET /api/products/:productId
+### Room Endpoints
 
-- **Update Product Information:** PUT /api/products/:productId
+- **Create a Room** POST /api/rooms
 
-- **Delete a Product:** DELETE /api/products/:productId
+- **Get a Room** GET /api/rooms/:id
 
-- **Search a Product by Name, Category, or Description:** GET /api/products?searchTerm=<searchTerm>
+- **Update Room (Only Accessible by Admin)** PUT /api/rooms/:id
 
-### Order Endpoints
+- **Delete a Room (Soft Delete, Only Accessible by Admin)** DELETE /api/rooms/:id
 
-- **Create a New Order:** POST /api/orders
+### Slot Endpoints
 
-- **Retrieve All Orders:** GET /api/orders
+- **Create Slot** POST /api/slots
 
-- **Retrieve Orders by User Email:** GET /api/orders?email=<userEmail>
+- **Get available slots** GET /api/slots/availability, /api/slots/availability?date=2024-06-15&roomId=60d9c4e4f3b4b544b8b8d1c5
+
+### Booking Endpoints
+
+- **Create a Booking** POST /api/bookings
+
+- **Get All Bookings (Only Accessible by Admin)** GET /api/bookings
+
+- **Get User's Bookings (Only Accessible by Authenticated User)** GET /api/my-bookings
+
+- **Update Booking (Only Accessible by Admin)** PUT /api/bookings/:id
+
+- **Delete Booking (Soft Delete, Only Accessible by Admin)** DELETE /api/bookings/:id
 
 ## Live API URL
 
