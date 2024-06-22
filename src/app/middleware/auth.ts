@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config';
-import AppError from '../errors/AppError';
 import httpStatus from 'http-status';
-import { USER_ROLE, UserRole } from '../modules/user/user.constant';
+import { UserRole } from '../modules/user/user.constant';
 
 const auth =
   (...allowedRoles: UserRole[]) =>

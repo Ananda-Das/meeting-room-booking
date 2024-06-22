@@ -4,7 +4,7 @@
    git clone https://github.com/Ananda-Das/meeting-room-booking
 
 2. **Install dependencies:**
-   cd product-management-api <br>
+   cd meeting-room-booking <br>
    npm install
 
 3. **Set up environment variables:**
@@ -53,4 +53,4 @@
 
 ## Live API URL
 
-You can access the live API at https://assignment-2-dun-nine.vercel.app/
+You can access the live API at https://meeting-room-booking-system-backend-two.vercel.app/

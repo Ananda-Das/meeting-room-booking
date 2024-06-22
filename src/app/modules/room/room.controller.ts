@@ -4,8 +4,6 @@ import httpStatus from 'http-status';
 import { TRoom } from './room.interface';
 import { RoomServices } from './room.service';
 import sendResponse from '../../utils/sendResponse';
-import { error } from 'console';
-import AppError from '../../errors/AppError';
 import asyncHandler from '../../utils/asyncHandler ';
 
 const createRoom = asyncHandler(async (req: Request, res: Response) => {
