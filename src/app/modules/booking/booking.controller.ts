@@ -53,14 +53,15 @@ const getAllBookings = asyncHandler(
       .populate('user');
 
     if (bookings.length === 0) {
-      sendResponse(res, {
+      return sendResponse(res, {
         statusCode: httpStatus.NOT_FOUND,
         success: false,
         message: 'No Data Found',
         data: [],
       });
     }
-    sendResponse(res, {
+
+    return sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'All bookings retrieved successfully',
@@ -71,27 +72,32 @@ const getAllBookings = asyncHandler(
 
 const getUserBookings = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.user.id;
+    try {
+      const userId = req.user.id;
 
-    const bookings = await Booking.find({ user: userId, isDeleted: false })
-      .populate('room')
-      .populate('slots');
+      const bookings = await Booking.find({ user: userId, isDeleted: false })
+        .populate('room')
+        .populate('slots')
+        .populate('user');
 
-    if (bookings.length === 0) {
-      sendResponse(res, {
-        statusCode: httpStatus.NOT_FOUND,
-        success: false,
-        message: 'No Data Found',
-        data: [],
+      if (bookings.length === 0) {
+        return sendResponse(res, {
+          statusCode: httpStatus.NOT_FOUND,
+          success: false,
+          message: 'No Data Found',
+          data: [],
+        });
+      }
+
+      return sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'User bookings retrieved successfully',
+        data: bookings,
       });
+    } catch (error) {
+      next(error);
     }
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'User bookings retrieved successfully',
-      data: bookings,
-    });
   },
 );
 
